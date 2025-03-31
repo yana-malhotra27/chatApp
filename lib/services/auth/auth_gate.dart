@@ -3,7 +3,7 @@
 //LoginOrRegister: Displays the login and registration options.
 //HomePage: Displays the main app content for authenticated users.
 import 'package:chatapp/page/home_page.dart';
-import 'package:chatapp/services/auth/login_or_register.dart';
+import 'package:chatapp/page/login_or_register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
