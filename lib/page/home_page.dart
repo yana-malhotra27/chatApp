@@ -1,5 +1,6 @@
 import 'package:chatapp/components/user_tile.dart';
 import 'package:chatapp/page/chat_page.dart';
+import 'package:chatapp/page/contacts_page.dart';
 import 'package:chatapp/page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp/services/auth/auth_service.dart';
@@ -35,11 +36,18 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chats"),
-          BottomNavigationBarItem(icon: Icon(Icons.contacts), label: "Contacts"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Chats"),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Contacts"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Settings"),
         ],
       ),
+      floatingActionButton: (_selectedIndex == 0 || _selectedIndex == 1)
+      ? FloatingActionButton(
+          onPressed: () {}, // no action
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          child: const Icon(Icons.add),
+        )
+      : null,
     );
   }
 
@@ -78,7 +86,11 @@ class _HomePageState extends State<HomePage> {
       return AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(_selectedIndex == 1 ? "Contacts" : "Settings"),
+        title: Text(_selectedIndex == 1 ? "Contacts" : "Settings",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       );
     }
   }
@@ -88,7 +100,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return _buildUserList();
       case 1:
-        return const Center(child: Text("Contacts Page"));
+        return ContactsPage();
       case 2:
         return const SettingsPage();
       default:
