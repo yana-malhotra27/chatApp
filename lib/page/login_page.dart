@@ -34,11 +34,11 @@ class LoginPage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Colors.grey,
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(
             e.toString(),
             style: TextStyle(
-              color: Colors.red,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
             ),
           ),
