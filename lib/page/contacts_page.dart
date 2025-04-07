@@ -32,8 +32,10 @@ class _ContactsPageState extends State<ContactsPage> {
             },
             decoration: InputDecoration(
               hintText: "Search",
-              hintStyle: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-              prefixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.inversePrimary),
+              hintStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary),
+              prefixIcon: Icon(Icons.search,
+                  color: Theme.of(context).colorScheme.inversePrimary),
               filled: true,
               fillColor:
                   Theme.of(context).colorScheme.inversePrimary.withOpacity(0.3),

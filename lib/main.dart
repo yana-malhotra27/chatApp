@@ -11,10 +11,14 @@ import 'package:provider/provider.dart';
 //The app checks if the user is logged in (via AuthGate) and shows the appropriate screen (like login or home).
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); //to make sure that flutter is ready
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); //firebase setup
-  runApp( //start app
-    ChangeNotifierProvider( //theme manager
+  WidgetsFlutterBinding
+      .ensureInitialized(); //to make sure that flutter is ready
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform); //firebase setup
+  runApp(
+    //start app
+    ChangeNotifierProvider(
+      //theme manager
       create: (context) => ThemeProvider(),
       child: const MyApp(),
     ),
@@ -29,7 +33,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthGate(), //Decides the first screen to show (AuthGate), which checks if the user is logged in.
+      home:
+          AuthGate(), //Decides the first screen to show (AuthGate), which checks if the user is logged in.
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }

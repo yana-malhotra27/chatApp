@@ -36,18 +36,20 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Chats"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: "Chats"),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "Contacts"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Settings"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), label: "Settings"),
         ],
       ),
       floatingActionButton: (_selectedIndex == 0 || _selectedIndex == 1)
-      ? FloatingActionButton(
-          onPressed: () {}, // no action
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: const Icon(Icons.add),
-        )
-      : null,
+          ? FloatingActionButton(
+              onPressed: () {}, // no action
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 
@@ -86,7 +88,8 @@ class _HomePageState extends State<HomePage> {
       return AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(_selectedIndex == 1 ? "Contacts" : "Settings",
+        title: Text(
+          _selectedIndex == 1 ? "Contacts" : "Settings",
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -120,7 +123,8 @@ class _HomePageState extends State<HomePage> {
           return const Text("Loading..");
         }
 
-        List<Map<String, dynamic>> users = snapshot.data as List<Map<String, dynamic>>;
+        List<Map<String, dynamic>> users =
+            snapshot.data as List<Map<String, dynamic>>;
 
         List<Map<String, dynamic>> filteredUsers = users.where((user) {
           return user['email'].toLowerCase().contains(_searchQuery);
@@ -135,7 +139,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildUserListItem(Map<String, dynamic> userData, BuildContext context) {
+  Widget _buildUserListItem(
+      Map<String, dynamic> userData, BuildContext context) {
     if (userData["email"] != _authService.getCurrentUser()!.email) {
       return UserTile(
         text: userData['email'],

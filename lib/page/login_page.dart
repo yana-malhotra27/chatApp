@@ -2,6 +2,7 @@ import 'package:chatapp/components/my_button.dart';
 import 'package:chatapp/components/my_textfield.dart';
 import 'package:chatapp/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
+
 //flow
 //Enter email and password.
 //Tap a "Login" button to log in.
@@ -46,7 +47,6 @@ class LoginPage extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +64,8 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 60),
-          Text("Email",
+          Text(
+            "Email",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 16.0,
@@ -79,7 +80,8 @@ class LoginPage extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           //pw textfield
-          Text("Password",
+          Text(
+            "Password",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 16.0,

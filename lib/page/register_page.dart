@@ -74,7 +74,8 @@ class RegisterPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 60),
-          Text("Email",
+          Text(
+            "Email",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 16.0,
@@ -89,7 +90,8 @@ class RegisterPage extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           //pw textfield
-          Text("Password",
+          Text(
+            "Password",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 16.0,
@@ -103,7 +105,8 @@ class RegisterPage extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           //cfpw textfield
-          Text("Confirm Password",
+          Text(
+            "Confirm Password",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 16.0,

@@ -33,34 +33,40 @@ class SettingsPage extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.notifications_none, color: Theme.of(context).colorScheme.primary),
+                  leading: Icon(Icons.notifications_none,
+                      color: Theme.of(context).colorScheme.primary),
                   title: const Text("Notifications"),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const NotificationsPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationsPage()),
                     );
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.dark_mode_outlined, color: Theme.of(context).colorScheme.primary),
+                  leading: Icon(Icons.dark_mode_outlined,
+                      color: Theme.of(context).colorScheme.primary),
                   title: const Text("Appearance"),
                   onTap: () {
                     themeProvider.toggleTheme();
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.lock_outline, color: Theme.of(context).colorScheme.primary),
+                  leading: Icon(Icons.lock_outline,
+                      color: Theme.of(context).colorScheme.primary),
                   title: const Text("Privacy"),
                   onTap: () {}, // No action
                 ),
                 ListTile(
-                  leading: Icon(Icons.cloud_outlined, color: Theme.of(context).colorScheme.primary),
+                  leading: Icon(Icons.cloud_outlined,
+                      color: Theme.of(context).colorScheme.primary),
                   title: const Text("Storage & Data"),
                   onTap: () {}, // No action
                 ),
                 ListTile(
-                  leading: Icon(Icons.help_outline, color: Theme.of(context).colorScheme.primary),
+                  leading: Icon(Icons.help_outline,
+                      color: Theme.of(context).colorScheme.primary),
                   title: const Text("About"),
                   onTap: () {}, // No action
                 ),
@@ -86,7 +92,8 @@ class SettingsPage extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.logout, color: Theme.of(context).colorScheme.primary),
+                  leading: Icon(Icons.logout,
+                      color: Theme.of(context).colorScheme.primary),
                   title: const Text("Log Out"),
                   onTap: () => authService.signOut(),
                 ),

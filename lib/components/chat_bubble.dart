@@ -19,7 +19,8 @@ class ChatBubble extends StatelessWidget {
         // Show profile image only for receiver messages
         if (!isCurrentUser)
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, right: 8.0), // Added left padding
+            padding: const EdgeInsets.only(
+                left: 12.0, right: 8.0), // Added left padding
             child: CircleAvatar(
               radius: 20,
               backgroundColor: Colors.transparent, // Removes blue background

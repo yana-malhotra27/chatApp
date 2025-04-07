@@ -48,7 +48,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
             child: Column(
               children: [
                 SwitchListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   title: const Text(
                     "Private chats",
                     style: TextStyle(fontSize: 16),
@@ -62,7 +63,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   },
                 ),
                 SwitchListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   title: const Text(
                     "Group chats",
                     style: TextStyle(fontSize: 16),
@@ -76,7 +78,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   },
                 ),
                 SwitchListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   title: const Text(
                     "Do not disturb",
                     style: TextStyle(fontSize: 16),
