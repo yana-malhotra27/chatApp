@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
 
   String _searchQuery = '';
-  int _selectedIndex = 0; // For bottom nav selection
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -30,7 +30,36 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(), // Conditionally built app bar
+      appBar: (_selectedIndex == 0)
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value.toLowerCase();
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: "Search",
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.surface,
+                ),
+              ),
+            )
+          : null,
       body: _getPage(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -45,57 +74,12 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: (_selectedIndex == 0 || _selectedIndex == 1)
           ? FloatingActionButton(
-              onPressed: () {}, // no action
+              onPressed: () {},
               backgroundColor: Theme.of(context).colorScheme.secondary,
               child: const Icon(Icons.add),
             )
           : null,
     );
-  }
-
-  // AppBar builder: Only shows search bar on Chats page
-  PreferredSizeWidget _buildAppBar() {
-    if (_selectedIndex == 0) {
-      return AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: TextField(
-          controller: _searchController,
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value.toLowerCase();
-            });
-          },
-          decoration: InputDecoration(
-            hintText: "Search",
-            hintStyle: TextStyle(
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            prefixIcon: Icon(
-              Icons.search,
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: Theme.of(context).colorScheme.surface,
-          ),
-        ),
-      );
-    } else {
-      return AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          _selectedIndex == 1 ? "Contacts" : "Settings",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      );
-    }
   }
 
   Widget _getPage(int index) {
@@ -120,7 +104,7 @@ class _HomePageState extends State<HomePage> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading..");
+          return const Text("Loading...");
         }
 
         List<Map<String, dynamic>> users =
