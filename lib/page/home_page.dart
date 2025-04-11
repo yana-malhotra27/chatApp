@@ -1,6 +1,6 @@
-import 'package:chatapp/components/user_tile.dart';
 import 'package:chatapp/page/chat_page.dart';
 import 'package:chatapp/page/contacts_page.dart';
+import 'package:chatapp/page/newcontactpage.dart';
 import 'package:chatapp/page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp/services/auth/auth_service.dart';
@@ -74,7 +74,16 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: (_selectedIndex == 0 || _selectedIndex == 1)
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                if (_selectedIndex == 1) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const NewContactPage(),
+                    ),
+                  );
+                }
+              },
               backgroundColor: Theme.of(context).colorScheme.secondary,
               child: const Icon(Icons.add),
             )
@@ -100,34 +109,41 @@ class _HomePageState extends State<HomePage> {
       stream: _chatService.getUserStream(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text('Error!');
+          return const Center(child: Text('Error!'));
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading...");
+          return const Center(child: CircularProgressIndicator());
         }
 
         List<Map<String, dynamic>> users =
             snapshot.data as List<Map<String, dynamic>>;
 
+        final currentUserEmail = _authService.currentUser?.email ?? '';
+
         List<Map<String, dynamic>> filteredUsers = users.where((user) {
-          return user['email'].toLowerCase().contains(_searchQuery);
+          final email = user['email']?.toString().toLowerCase() ?? '';
+          return email.contains(_searchQuery) && email != currentUserEmail;
         }).toList();
 
-        return ListView(
-          children: filteredUsers
-              .map<Widget>((userData) => _buildUserListItem(userData, context))
-              .toList(),
+        filteredUsers = filteredUsers.reversed.toList();
+
+        return ListView.builder(
+          itemCount: filteredUsers.length,
+          itemBuilder: (context, index) {
+            return _buildUserListItem(
+                filteredUsers[index], context, index < 2);
+          },
         );
       },
     );
   }
 
-  Widget _buildUserListItem(
-      Map<String, dynamic> userData, BuildContext context) {
-    if (userData["email"] != _authService.getCurrentUser()!.email) {
-      return UserTile(
-        text: userData['email'],
+  Widget _buildUserListItem(Map<String, dynamic> userData, BuildContext context,
+      bool showUnreadBadge) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         onTap: () {
           Navigator.push(
             context,
@@ -135,13 +151,76 @@ class _HomePageState extends State<HomePage> {
               builder: (context) => ChatPage(
                 recieverEmail: userData["email"],
                 recieverID: userData["uid"],
+                recieverUsername: userData["username"] ?? 'Unknown',
               ),
             ),
           );
         },
-      );
-    } else {
-      return Container();
-    }
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            children: [
+              const CircleAvatar(
+                radius: 24,
+                backgroundImage: AssetImage('lib/images/person.jpg'),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userData['username'] ?? 'Unknown',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Hey there! 👋',
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 14,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '4:30 PM',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  if (showUnreadBadge)
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(
+                        color: Colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Text(
+                        '2',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

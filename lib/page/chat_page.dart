@@ -5,17 +5,17 @@ import 'package:chatapp/services/chat/chat_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-//View real-time chat messages exchanged with another user.
-//Send new messages.
-//Automatically scroll to the latest messages when typing or sending.
 class ChatPage extends StatefulWidget {
   final String recieverEmail;
   final String recieverID;
+  final String recieverUsername;
+
 
   ChatPage({
     super.key,
     required this.recieverEmail,
     required this.recieverID,
+     required this.recieverUsername,
   });
 
   @override
@@ -23,31 +23,33 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  // Controllers
   final TextEditingController _messageController = TextEditingController();
-  final TextEditingController _searchController =
-      TextEditingController(); // Search input controller
+  final TextEditingController _searchController = TextEditingController();
 
-  // Chat and auth services
   final ChatService _chatService = ChatService();
   final AuthService _authService = AuthService();
 
-  // Focus for textfield
-  FocusNode myFocusNode = FocusNode();
-  bool _isSearching = false; // Track if the user is searching
-  String _searchQuery = ""; // Store the search query
+  final FocusNode myFocusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+
+  bool _isSearching = false;
+  String _searchQuery = "";
+
+  late final String senderID;
 
   @override
   void initState() {
     super.initState();
 
+    senderID = _authService.currentUser?.uid ?? '';
+
     myFocusNode.addListener(() {
       if (myFocusNode.hasFocus) {
-        Future.delayed(const Duration(milliseconds: 500), () => scrollDown());
+        Future.delayed(const Duration(milliseconds: 500), scrollDown);
       }
     });
 
-    Future.delayed(const Duration(milliseconds: 500), () => scrollDown());
+    Future.delayed(const Duration(milliseconds: 500), scrollDown);
   }
 
   @override
@@ -55,26 +57,27 @@ class _ChatPageState extends State<ChatPage> {
     myFocusNode.dispose();
     _messageController.dispose();
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
-  final ScrollController _scrollController = ScrollController();
-
   void scrollDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(seconds: 1),
-      curve: Curves.fastOutSlowIn,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   void sendMessage() async {
-    if (_messageController.text.isNotEmpty) {
-      await _chatService.sendMessages(
-          widget.recieverID, _messageController.text);
+    final text = _messageController.text.trim();
+    if (text.isNotEmpty) {
+      await _chatService.sendMessages(widget.recieverID, text);
       _messageController.clear();
+      scrollDown();
     }
-    scrollDown();
   }
 
   @override
@@ -86,7 +89,7 @@ class _ChatPageState extends State<ChatPage> {
             ? TextField(
                 controller: _searchController,
                 autofocus: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Search messages...",
                   border: InputBorder.none,
                 ),
@@ -99,11 +102,11 @@ class _ChatPageState extends State<ChatPage> {
             : Text(widget.recieverEmail),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        scrolledUnderElevation: 0, // Prevents color change on scroll
-        surfaceTintColor: Colors.transparent, // Ensures no background tint
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         actions: [
           IconButton(
-            onPressed: () {}, // Call functionality (not implemented yet)
+            onPressed: () {}, // Call feature
             icon: const Icon(Icons.call),
           ),
           IconButton(
@@ -119,7 +122,7 @@ class _ChatPageState extends State<ChatPage> {
             icon: Icon(_isSearching ? Icons.close : Icons.search),
           ),
           IconButton(
-            onPressed: () {}, // More options (not implemented yet)
+            onPressed: () {}, // More options
             icon: const Icon(Icons.more_vert),
           ),
         ],
@@ -134,21 +137,21 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildMessageList() {
-    String senderID = _authService.getCurrentUser()!.uid;
     return StreamBuilder(
       stream: _chatService.getMessages(widget.recieverID, senderID),
       builder: (context, snapshot) {
-        if (snapshot.hasError) return const Text("Error");
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return const Text('Loading...');
+        if (snapshot.hasError) return const Center(child: Text("Error"));
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
         List<DocumentSnapshot> messages = snapshot.data!.docs;
 
-        // Filter messages based on the search query
         if (_searchQuery.isNotEmpty) {
           messages = messages.where((doc) {
-            Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+            final data = doc.data() as Map<String, dynamic>;
             return data["message"]
+                .toString()
                 .toLowerCase()
                 .contains(_searchQuery.toLowerCase());
           }).toList();
@@ -156,20 +159,20 @@ class _ChatPageState extends State<ChatPage> {
 
         return ListView(
           controller: _scrollController,
-          children: messages.map((doc) => _buildMessageItem(doc)).toList(),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+          children: messages.map(_buildMessageItem).toList(),
         );
       },
     );
   }
 
   Widget _buildMessageItem(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    bool isCurrentUser = data['senderID'] == _authService.getCurrentUser()!.uid;
-    var alignment =
-        isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+    final data = doc.data() as Map<String, dynamic>;
+    final bool isCurrentUser = data['senderID'] == senderID;
 
-    return Container(
-      alignment: alignment,
+    return Align(
+      alignment:
+          isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
         crossAxisAlignment:
             isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -185,25 +188,19 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildUserInput() {
     return Padding(
-      padding: const EdgeInsets.only(
-          bottom: 50.0, left: 10, right: 10), // Added left padding
+      padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10),
       child: Row(
         children: [
-          // Camera Icon
           IconButton(
-            onPressed: () {}, // Currently does nothing
+            onPressed: () {}, // Camera feature
             icon: Icon(Icons.camera_alt,
                 color: Theme.of(context).colorScheme.primary),
           ),
-
-          // Image Icon
           IconButton(
-            onPressed: () {}, // Currently does nothing
+            onPressed: () {}, // Gallery feature
             icon:
                 Icon(Icons.image, color: Theme.of(context).colorScheme.primary),
           ),
-
-          // TextField with Expanded to take remaining space
           Expanded(
             child: MyTextField(
               controller: _messageController,
@@ -212,8 +209,6 @@ class _ChatPageState extends State<ChatPage> {
               focusNode: myFocusNode,
             ),
           ),
-
-          // Send Button
           Container(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,

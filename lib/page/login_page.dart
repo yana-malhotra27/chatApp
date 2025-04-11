@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 //Navigate to the registration page.
 class LoginPage extends StatelessWidget {
   //email and pw text controllers
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
   //tap to go to register page
   final void Function()? onTap;
@@ -18,34 +18,30 @@ class LoginPage extends StatelessWidget {
 
   //login method
   void login(BuildContext context) async {
-    //auth service
-    final authService = AuthService();
+  final authService = AuthService();
 
-    //try login
-    try {
-      await authService.signInWithEmailPassword(
-        _emailController.text,
-        _pwController.text,
-      );
-    }
+  try {
+    final username = _usernameController.text.trim();
+    final password = _pwController.text.trim();
 
-    //catch any errors
-    catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(
-            e.toString(),
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.bold,
-            ),
+    // Sign in using username
+    await authService.signInWithUsernamePassword(username, password);
+  } catch (e) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(
+          e.toString(),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
           ),
         ),
-      );
-    }
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +61,19 @@ class LoginPage extends StatelessWidget {
           ),
           const SizedBox(height: 60),
           Text(
-            "Email",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 16.0,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ),
-          //email textfield
-          MyTextField(
-            hintText: "Enter your Email",
-            obscureText: false,
-            controller: _emailController,
-          ),
+  "Username",
+  textAlign: TextAlign.left,
+  style: TextStyle(
+    fontSize: 16.0,
+    color: Theme.of(context).colorScheme.tertiary,
+  ),
+),
+// username textfield
+MyTextField(
+  hintText: "Enter your Username",
+  obscureText: false,
+  controller: _usernameController,
+),
           const SizedBox(height: 30),
           //pw textfield
           Text(
