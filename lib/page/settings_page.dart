@@ -61,6 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 80),
                 // Bottom-left title
                 const Positioned(
                   bottom: 0,
@@ -68,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Text(
                     "Settings",
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 26,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -103,6 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const CircleAvatar(
                   radius: 28,
                   backgroundImage: AssetImage('lib/images/person.jpg'),
+                  backgroundColor: Colors.transparent,
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -130,8 +132,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   ),
                   onPressed: () {},
                   child: Text(

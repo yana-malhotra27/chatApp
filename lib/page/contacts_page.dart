@@ -1,3 +1,4 @@
+import 'package:chatapp/page/user_profile.dart';
 import 'package:flutter/material.dart';
 
 class ContactsPage extends StatefulWidget {
@@ -53,52 +54,80 @@ class _ContactsPageState extends State<ContactsPage> {
       if (firstLetter != lastLetter) {
         // New section with letter + contact
         contactTiles.add(
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 24,
-                  child: Text(
-                    firstLetter,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 18,
-                    ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => UserProfile(
+                    name: name,
+                    imagePath: imagePath,
                   ),
                 ),
-                const SizedBox(width: 24),
-                CircleAvatar(
-                  radius: 24, // Larger avatar
-                  backgroundImage: AssetImage(imagePath),
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  name,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ],
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, top: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    child: Text(
+                      firstLetter,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundImage: AssetImage(imagePath),
+                    backgroundColor: Colors.transparent,
+                  ),
+                  const SizedBox(width: 16),
+                  Text(
+                    name,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
         );
       } else {
         contactTiles.add(
-          Padding(
-            padding: const EdgeInsets.only(left: 64, top: 16),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundImage: AssetImage(imagePath),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => UserProfile(
+                    name: name,
+                    imagePath: imagePath,
+                  ),
                 ),
-                const SizedBox(width: 16),
-                Text(
-                  name,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ],
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 64, top: 16),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundImage: AssetImage(imagePath),
+                    backgroundColor: Colors.transparent,
+                  ),
+                  const SizedBox(width: 16),
+                  Text(
+                    name,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
         );

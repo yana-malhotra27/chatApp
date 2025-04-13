@@ -1,5 +1,4 @@
 import 'package:chatapp/components/chat_bubble.dart';
-import 'package:chatapp/components/my_textfield.dart';
 import 'package:chatapp/services/auth/auth_service.dart';
 import 'package:chatapp/services/chat/chat_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,12 +9,11 @@ class ChatPage extends StatefulWidget {
   final String recieverID;
   final String recieverUsername;
 
-
   ChatPage({
     super.key,
     required this.recieverEmail,
     required this.recieverID,
-     required this.recieverUsername,
+    required this.recieverUsername,
   });
 
   @override
@@ -99,7 +97,10 @@ class _ChatPageState extends State<ChatPage> {
                   });
                 },
               )
-            : Text(widget.recieverEmail),
+            : Text(
+                widget.recieverUsername,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ), // Change this line to use username
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -171,8 +172,7 @@ class _ChatPageState extends State<ChatPage> {
     final bool isCurrentUser = data['senderID'] == senderID;
 
     return Align(
-      alignment:
-          isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
         crossAxisAlignment:
             isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -188,37 +188,66 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildUserInput() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 50, left: 10, right: 10),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          // Camera Icon
           IconButton(
             onPressed: () {}, // Camera feature
-            icon: Icon(Icons.camera_alt,
-                color: Theme.of(context).colorScheme.primary),
-          ),
-          IconButton(
-            onPressed: () {}, // Gallery feature
-            icon:
-                Icon(Icons.image, color: Theme.of(context).colorScheme.primary),
-          ),
-          Expanded(
-            child: MyTextField(
-              controller: _messageController,
-              hintText: "Message",
-              obscureText: false,
-              focusNode: myFocusNode,
+            icon: Icon(
+              Icons.camera_alt,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
+
+          // Gallery Icon
+          IconButton(
+            onPressed: () {}, // Gallery feature
+            icon: Icon(
+              Icons.image,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+
+          // Built-in TextField
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer, // Background color
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: TextField(
+                controller: _messageController,
+                focusNode: myFocusNode,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
+                decoration: InputDecoration(
+                  hintText: "Message",
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+
+          // Send Button
           Container(
+            margin: const EdgeInsets.only(left: 8),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               shape: BoxShape.circle,
             ),
-            margin: const EdgeInsets.only(right: 2),
             child: IconButton(
               onPressed: sendMessage,
               icon: Icon(
-                Icons.arrow_upward,
+                Icons.send,
                 color: Theme.of(context).colorScheme.surface,
               ),
             ),

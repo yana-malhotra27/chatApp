@@ -8,108 +8,127 @@ class NewContactPage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          "New contact",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: false,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        children: [
-          // Image Picker (placeholder box)
-          Padding(
-            padding: const EdgeInsets.only(left: 56),
-            child: Container(
-              width: 360,
-              height: 160,
-              decoration: BoxDecoration(
-                color: colorScheme.secondary.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Center(
-                child: Text("Image Picker"),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          children: [
+            // Top row: back button + title (no AppBar)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    "New contact",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 16),
 
-          // First Name
-          _buildInputRow(
-            icon: Icons.person,
-            hint: "First name",
-            colorScheme: colorScheme,
-          ),
+            // Image Picker section
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                width: 360,
+                height: 160,
+                decoration: BoxDecoration(
+                  color: colorScheme.inversePrimary.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                child: Center(
+                  child: CircleAvatar(
+                    radius: 28,
+                    backgroundColor: colorScheme.primary.withOpacity(0.15),
+                    child: Icon(
+                      Icons.image,
+                      color: colorScheme.onSurface,
+                      size: 28,
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
-          const SizedBox(height: 16),
+            const SizedBox(height: 24),
 
-          // Last Name
-          _buildInputRow(
-            icon: Icons.person_outline,
-            hint: "Last name",
-            colorScheme: colorScheme,
-          ),
-
-          const SizedBox(height: 16),
-
-          // Phone
-          _buildInputRow(
-            icon: Icons.phone,
-            hint: "Phone",
-            colorScheme: colorScheme,
-          ),
-
-          const SizedBox(height: 16),
-
-          // Address
-          _buildInputRow(
-            icon: Icons.map,
-            hint: "Address",
-            colorScheme: colorScheme,
-          ),
-
-          const SizedBox(height: 16),
-
-          // City
-          _buildInputRow(
-            icon: Icons.location_city,
-            hint: "City",
-            colorScheme: colorScheme,
-          ),
-        ],
+            // Input fields
+            _buildInputRow(
+              icon: Icons.person_outlined,
+              hint: "First name",
+              colorScheme: colorScheme,
+            ),
+            const SizedBox(height: 16),
+            _buildInputRow(
+              hint: "Last name",
+              colorScheme: colorScheme,
+            ),
+            const SizedBox(height: 16),
+            _buildInputRow(
+              icon: Icons.phone_outlined,
+              hint: "Phone",
+              colorScheme: colorScheme,
+              keyboardType: TextInputType.phone,
+            ),
+            const SizedBox(height: 16),
+            _buildInputRow(
+              icon: Icons.place_outlined,
+              hint: "Address",
+              colorScheme: colorScheme,
+            ),
+            const SizedBox(height: 16),
+            _buildInputRow(
+              hint: "City",
+              colorScheme: colorScheme,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildInputRow({
-    required IconData icon,
+    IconData? icon,
     required String hint,
     required ColorScheme colorScheme,
+    TextInputType? keyboardType,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          Icon(icon, color: colorScheme.primary),
+          Icon(icon),
           const SizedBox(width: 16),
           Expanded(
             child: SizedBox(
-              height: 56,
+              height: 60,
               child: TextField(
                 decoration: InputDecoration(
                   hintText: hint,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  hintStyle: TextStyle(color: colorScheme.inversePrimary),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   filled: true,
-                  fillColor: colorScheme.surfaceVariant.withOpacity(0.4),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(7),
+                      borderSide: BorderSide(color: colorScheme.tertiary)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(7),
+                    borderSide: BorderSide(color: colorScheme.tertiary),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(7),
+                    borderSide: BorderSide(color: colorScheme.tertiary),
                   ),
                 ),
               ),

@@ -75,17 +75,18 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: (_selectedIndex == 0 || _selectedIndex == 1)
           ? FloatingActionButton(
               onPressed: () {
-                if (_selectedIndex == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const NewContactPage(),
-                    ),
-                  );
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const NewContactPage(),
+                  ),
+                );
               },
               backgroundColor: Theme.of(context).colorScheme.secondary,
-              child: const Icon(Icons.add),
+              child: Icon(
+                _selectedIndex == 0 ? Icons.edit_outlined : Icons.add,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
             )
           : null,
     );
@@ -131,8 +132,7 @@ class _HomePageState extends State<HomePage> {
         return ListView.builder(
           itemCount: filteredUsers.length,
           itemBuilder: (context, index) {
-            return _buildUserListItem(
-                filteredUsers[index], context, index < 2);
+            return _buildUserListItem(filteredUsers[index], context, index < 2);
           },
         );
       },
@@ -156,6 +156,44 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
+        onLongPress: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                icon: Icon(Icons.delete_outline,
+                    color: Theme.of(context).colorScheme.primary),
+                title: Text("Delete conversation?"),
+                content: Text(
+                  "This conversation will be removed from all your synced devices. This action cannot be undone.",
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      // Handle deletion here
+                      Navigator.pop(context);
+                      await _chatService.deleteConversation(userData["uid"]);
+                    },
+                    child: Text(
+                      "Delete",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
@@ -163,6 +201,7 @@ class _HomePageState extends State<HomePage> {
               const CircleAvatar(
                 radius: 24,
                 backgroundImage: AssetImage('lib/images/person.jpg'),
+                backgroundColor: Colors.transparent,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -178,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Hey there! 👋',
+                      'Hey there! How are you?',
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 14,
