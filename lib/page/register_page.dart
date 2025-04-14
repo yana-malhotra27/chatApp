@@ -23,11 +23,11 @@ class RegisterPage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
           title: Text(
             "Password is not confirmed correctly",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.error,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -42,11 +42,11 @@ class RegisterPage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
           title: Text(
             e.toString(),
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.error,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -66,22 +66,25 @@ class RegisterPage extends StatelessWidget {
       child: TextField(
         obscureText: obscureText,
         controller: controller,
+        style: TextStyle(
+        color: Theme.of(context).colorScheme.outline,
+      ),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.tertiary),
+                BorderSide(color: Theme.of(context).colorScheme.outline),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.tertiary),
+                BorderSide(color: Theme.of(context).colorScheme.outline),
           ),
           fillColor: Theme.of(context).colorScheme.surface,
           filled: true,
           hintText: hintText,
           hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.inversePrimary,
+            color: Theme.of(context).colorScheme.outline,
           ),
         ),
       ),
@@ -130,7 +133,7 @@ class RegisterPage extends StatelessWidget {
               Text(
                 "REGISTER!",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
                   fontWeight: FontWeight.bold,
                   fontSize: 36,
                 ),
@@ -147,7 +150,7 @@ class RegisterPage extends StatelessWidget {
                     "Email",
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
                     ),
                   ),
                 ),
@@ -170,7 +173,7 @@ class RegisterPage extends StatelessWidget {
                     "Username",
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
                     ),
                   ),
                 ),
@@ -193,7 +196,7 @@ class RegisterPage extends StatelessWidget {
                     "Password",
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
                     ),
                   ),
                 ),
@@ -216,7 +219,7 @@ class RegisterPage extends StatelessWidget {
                     "Confirm Password",
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
                     ),
                   ),
                 ),

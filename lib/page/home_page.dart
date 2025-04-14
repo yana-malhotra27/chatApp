@@ -44,34 +44,45 @@ class _HomePageState extends State<HomePage> {
                 decoration: InputDecoration(
                   hintText: "Search",
                   hintStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                   prefixIcon: Icon(
                     Icons.search,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
                   filled: true,
-                  fillColor: Theme.of(context).colorScheme.surface,
+                  fillColor: Theme.of(context).colorScheme.outline.withOpacity(0.1),
                 ),
               ),
             )
           : null,
       body: _getPage(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: "Chats"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Contacts"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined), label: "Settings"),
-        ],
-      ),
+     bottomNavigationBar: BottomNavigationBar(
+  currentIndex: _selectedIndex,
+  onTap: _onItemTapped,
+  selectedItemColor: Theme.of(context).colorScheme.onErrorContainer,
+  unselectedItemColor: Theme.of(context).colorScheme.onErrorContainer,
+  backgroundColor: Theme.of(context).colorScheme.surface,
+  items: const [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home_outlined),
+      label: "Chats",
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.people),
+      label: "Contacts",
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.settings_outlined),
+      label: "Settings",
+    ),
+  ],
+),
+
       floatingActionButton: (_selectedIndex == 0 || _selectedIndex == 1)
           ? FloatingActionButton(
               onPressed: () {
@@ -82,10 +93,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              backgroundColor: Theme.of(context).colorScheme.secondary,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               child: Icon(
                 _selectedIndex == 0 ? Icons.edit_outlined : Icons.add,
-                color: Theme.of(context).colorScheme.tertiary,
+                color: Theme.of(context).colorScheme.onErrorContainer
               ),
             )
           : null,
@@ -123,9 +134,10 @@ class _HomePageState extends State<HomePage> {
         final currentUserEmail = _authService.currentUser?.email ?? '';
 
         List<Map<String, dynamic>> filteredUsers = users.where((user) {
-          final email = user['email']?.toString().toLowerCase() ?? '';
-          return email.contains(_searchQuery) && email != currentUserEmail;
-        }).toList();
+  final username = user['username']?.toString().toLowerCase() ?? '';
+  final email = user['email']?.toString().toLowerCase() ?? '';
+  return username.contains(_searchQuery) && email != currentUserEmail;
+}).toList();
 
         filteredUsers = filteredUsers.reversed.toList();
 
@@ -164,10 +176,10 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Theme.of(context).colorScheme.surface,
                 icon: Icon(Icons.delete_outline,
                     color: Theme.of(context).colorScheme.primary),
-                title: Text("Delete conversation?"),
+                title: Text("Delete conversation?",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),),
                 content: Text(
-                  "This conversation will be removed from all your synced devices. This action cannot be undone.",
-                ),
+                  "This conversation will be removed from all your synced devices. This action cannot be undone."
+                , style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -210,7 +222,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       userData['username'] ?? 'Unknown',
-                      style: const TextStyle(
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onErrorContainer,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -219,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       'Hey there! How are you?',
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: Theme.of(context).colorScheme.outline,
                         fontSize: 14,
                       ),
                       maxLines: 1,
@@ -235,21 +248,21 @@ class _HomePageState extends State<HomePage> {
                     '4:30 PM',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.grey.shade600,
+                      color: Theme.of(context).colorScheme.outline,
                     ),
                   ),
                   const SizedBox(height: 6),
                   if (showUnreadBadge)
                     Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
-                        color: Colors.blue,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
                         shape: BoxShape.circle,
                       ),
-                      child: const Text(
+                      child: Text(
                         '2',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onError,
                           fontSize: 12,
                         ),
                       ),

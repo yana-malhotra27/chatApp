@@ -19,12 +19,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back,color: Theme.of(context).colorScheme.onErrorContainer,),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           "Notifications",
           style: TextStyle(
+            color: Theme.of(context).colorScheme.onErrorContainer,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -40,14 +41,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
             "Message notifications",
             style: TextStyle(
               fontSize: 18,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
-              color: colorScheme.primary,
             ),
           ),
           const SizedBox(height: 16),
 
           SwitchListTile(
-            title: const Text("Private chats", style: TextStyle(fontSize: 16)),
+            title: Text("Private chats", style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onErrorContainer,)),
             value: privateChats,
             onChanged: (val) => setState(() => privateChats = val),
             activeColor: colorScheme.primary,
@@ -58,7 +59,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           const SizedBox(height: 12),
 
           SwitchListTile(
-            title: const Text("Group chats", style: TextStyle(fontSize: 16)),
+            title: Text("Group chats", style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onErrorContainer,)),
             value: groupChats,
             onChanged: (val) => setState(() => groupChats = val),
             activeColor: colorScheme.primary,
@@ -69,7 +70,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           const SizedBox(height: 12),
 
           SwitchListTile(
-            title: const Text("Do not disturb", style: TextStyle(fontSize: 16)),
+            title: Text("Do not disturb", style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onErrorContainer,)),
             value: doNotDisturb,
             onChanged: (val) => setState(() => doNotDisturb = val),
             activeColor: colorScheme.primary,

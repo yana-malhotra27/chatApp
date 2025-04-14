@@ -20,11 +20,11 @@ class LoginPage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
           title: Text(
             e.toString(),
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.error,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -42,24 +42,27 @@ class LoginPage extends StatelessWidget {
     return TextField(
       obscureText: obscureText,
       controller: controller,
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.outline,
+      ),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context).colorScheme.outline,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context).colorScheme.outline,
           ),
         ),
         fillColor: Theme.of(context).colorScheme.surface,
         filled: true,
         hintText: hintText,
         hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.inversePrimary,
+          color: Theme.of(context).colorScheme.outline,
         ),
       ),
     );
@@ -106,7 +109,7 @@ class LoginPage extends StatelessWidget {
                 child: Text(
                   "LOGIN!",
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onErrorContainer,
                     fontWeight: FontWeight.bold,
                     fontSize: 40,
                   ),
@@ -117,7 +120,7 @@ class LoginPage extends StatelessWidget {
                 "Username",
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
                 ),
               ),
               const SizedBox(height: 8),
@@ -132,7 +135,7 @@ class LoginPage extends StatelessWidget {
                 "Password",
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
                 ),
               ),
               const SizedBox(height: 8),

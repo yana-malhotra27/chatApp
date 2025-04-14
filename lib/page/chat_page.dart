@@ -1,4 +1,4 @@
-import 'package:chatapp/components/chat_bubble.dart';
+import 'package:chatapp/component/chat_bubble.dart';
 import 'package:chatapp/services/auth/auth_service.dart';
 import 'package:chatapp/services/chat/chat_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -83,6 +83,9 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+         iconTheme: IconThemeData(
+    color: Theme.of(context).colorScheme.onErrorContainer, 
+  ),
         title: _isSearching
             ? TextField(
                 controller: _searchController,
@@ -99,8 +102,8 @@ class _ChatPageState extends State<ChatPage> {
               )
             : Text(
                 widget.recieverUsername,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ), // Change this line to use username
+                style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onErrorContainer),
+              ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -108,7 +111,7 @@ class _ChatPageState extends State<ChatPage> {
         actions: [
           IconButton(
             onPressed: () {}, // Call feature
-            icon: const Icon(Icons.call),
+            icon: Icon(Icons.call, color: Theme.of(context).colorScheme.onErrorContainer),
           ),
           IconButton(
             onPressed: () {
@@ -120,11 +123,11 @@ class _ChatPageState extends State<ChatPage> {
                 }
               });
             },
-            icon: Icon(_isSearching ? Icons.close : Icons.search),
+            icon: Icon(_isSearching ? Icons.close : Icons.search, color: Theme.of(context).colorScheme.onErrorContainer),
           ),
           IconButton(
             onPressed: () {}, // More options
-            icon: const Icon(Icons.more_vert),
+            icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.onErrorContainer),
           ),
         ],
       ),
@@ -217,19 +220,19 @@ class _ChatPageState extends State<ChatPage> {
               decoration: BoxDecoration(
                 color: Theme.of(context)
                     .colorScheme
-                    .primaryContainer, // Background color
+                    .surface, // Background color
                 borderRadius: BorderRadius.circular(24),
               ),
               child: TextField(
                 controller: _messageController,
                 focusNode: myFocusNode,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.outline,
                 ),
                 decoration: InputDecoration(
                   hintText: "Message",
                   hintStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                   border: InputBorder.none,
                 ),
@@ -248,7 +251,7 @@ class _ChatPageState extends State<ChatPage> {
               onPressed: sendMessage,
               icon: Icon(
                 Icons.send,
-                color: Theme.of(context).colorScheme.surface,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
           ),

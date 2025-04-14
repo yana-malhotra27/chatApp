@@ -23,11 +23,13 @@ class NewContactPage extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                   ),
                   const SizedBox(width: 8),
-                  const Text(
+                  Text(
                     "New contact",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+
                     ),
                   ),
                 ],
@@ -43,7 +45,7 @@ class NewContactPage extends StatelessWidget {
                 width: 360,
                 height: 160,
                 decoration: BoxDecoration(
-                  color: colorScheme.inversePrimary.withOpacity(0.3),
+                  color: colorScheme.outline.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(32),
                 ),
                 child: Center(
@@ -52,7 +54,7 @@ class NewContactPage extends StatelessWidget {
                     backgroundColor: colorScheme.primary.withOpacity(0.15),
                     child: Icon(
                       Icons.image,
-                      color: colorScheme.onSurface,
+                      color: colorScheme.primary,
                       size: 28,
                     ),
                   ),
@@ -113,22 +115,24 @@ class NewContactPage extends StatelessWidget {
             child: SizedBox(
               height: 60,
               child: TextField(
+                
+                style: TextStyle(color: colorScheme.outline),
                 decoration: InputDecoration(
                   hintText: hint,
-                  hintStyle: TextStyle(color: colorScheme.inversePrimary),
+                  hintStyle: TextStyle(color: colorScheme.outline),
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   filled: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(7),
-                      borderSide: BorderSide(color: colorScheme.tertiary)),
+                      borderSide: BorderSide(color: colorScheme.outline)),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(7),
-                    borderSide: BorderSide(color: colorScheme.tertiary),
+                    borderSide: BorderSide(color: colorScheme.outline),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(7),
-                    borderSide: BorderSide(color: colorScheme.tertiary),
+                    borderSide: BorderSide(color: colorScheme.outline),
                   ),
                 ),
               ),

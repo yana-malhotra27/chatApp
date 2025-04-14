@@ -18,13 +18,10 @@ class UserProfile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.onErrorContainer),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(name),
-        actions: const [
-          Icon(Icons.more_vert),
-        ],
+        
       ),
       body: Column(
         children: [
@@ -42,7 +39,7 @@ class UserProfile extends StatelessWidget {
           // Username
           Text(
             name,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onErrorContainer),
           ),
 
           const SizedBox(height: 4),
@@ -52,7 +49,7 @@ class UserProfile extends StatelessWidget {
             '9876543210',
             style: TextStyle(
               fontSize: 16,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              color: Theme.of(context).colorScheme.onErrorContainer
             ),
           ),
 
@@ -105,18 +102,18 @@ class UserProfile extends StatelessWidget {
           // ListTiles
           ListTile(
             leading: Icon(Icons.image_outlined, color: colorScheme.primary),
-            title: Text('View media'),
+            title: Text('View media',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.search_outlined, color: colorScheme.primary),
-            title: Text('Search in conversation'),
+            title: Text('Search in conversation',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
             onTap: () {},
           ),
           ListTile(
             leading:
                 Icon(Icons.notifications_outlined, color: colorScheme.primary),
-            title: Text('Notifications'),
+            title: Text('Notifications',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
             onTap: () {
               Navigator.push(
                 context,

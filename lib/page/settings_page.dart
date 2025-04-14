@@ -43,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(_isSearching ? Icons.close : Icons.search),
+                        icon: Icon(_isSearching ? Icons.close : Icons.search,color: Theme.of(context).colorScheme.onErrorContainer,),
                         onPressed: () {
                           setState(() {
                             if (_isSearching) {
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         },
                       ),
                       IconButton(
-                        icon: const Icon(Icons.more_vert),
+                        icon: Icon(Icons.more_vert,color: Theme.of(context).colorScheme.onErrorContainer,),
                         onPressed: () {},
                       ),
                     ],
@@ -63,13 +63,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 80),
                 // Bottom-left title
-                const Positioned(
+                Positioned(
                   bottom: 0,
                   left: 0,
                   child: Text(
                     "Settings",
                     style: TextStyle(
                       fontSize: 26,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -82,10 +83,15 @@ class _SettingsPageState extends State<SettingsPage> {
             if (_isSearching)
               TextField(
                 controller: _searchController,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                ),
                 autofocus: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Search settings...",
+                  fillColor: Theme.of(context).colorScheme.outline,
                   border: OutlineInputBorder(),
+                  
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
@@ -111,16 +117,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                       Text(
                         'Daniel',
                         style: TextStyle(
+                          color: Theme.of(context).colorScheme.onErrorContainer,
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '9876543210',
                         style: TextStyle(
                           fontSize: 14,
-                          color: colorScheme.inversePrimary,
+                          color: colorScheme.onErrorContainer,
                         ),
                       ),
                     ],
@@ -128,7 +135,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -140,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     'Edit',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
                     ),
                   ),
                 ),
@@ -166,7 +173,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 leading:
                     Icon(Icons.notifications_none, color: colorScheme.primary),
-                title: const Text("Notifications"),
+                title: Text("Notifications",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -180,35 +187,35 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 leading:
                     Icon(Icons.dark_mode_outlined, color: colorScheme.primary),
-                title: const Text("Appearance"),
+                title: Text("Appearance",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
                 onTap: () => themeProvider.toggleTheme(),
               ),
             if (_searchQuery.isEmpty ||
                 "privacy".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.lock_outline, color: colorScheme.primary),
-                title: const Text("Privacy"),
+                title: Text("Privacy",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
                 onTap: () {},
               ),
             if (_searchQuery.isEmpty ||
                 "storage".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.cloud_outlined, color: colorScheme.primary),
-                title: const Text("Storage & Data"),
+                title: Text("Storage & Data",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
                 onTap: () {},
               ),
             if (_searchQuery.isEmpty ||
                 "about".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.help_outline, color: colorScheme.primary),
-                title: const Text("About"),
+                title: Text("About",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
                 onTap: () {},
               ),
             if (_searchQuery.isEmpty ||
                 "log out".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.logout, color: colorScheme.primary),
-                title: const Text("Log Out"),
+                title: Text("Log Out",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
                 onTap: () => authService.signOut(),
               ),
           ],

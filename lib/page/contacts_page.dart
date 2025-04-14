@@ -1,4 +1,5 @@
 import 'package:chatapp/page/user_profile.dart';
+import 'package:chatapp/page/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class ContactsPage extends StatefulWidget {
@@ -33,6 +34,7 @@ class _ContactsPageState extends State<ContactsPage> {
   ];
 
   String _searchQuery = '';
+  final SearchController searchController = SearchController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,88 +53,52 @@ class _ContactsPageState extends State<ContactsPage> {
       final String imagePath = contact['image']!;
       final String firstLetter = name[0].toUpperCase();
 
-      if (firstLetter != lastLetter) {
-        // New section with letter + contact
-        contactTiles.add(
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => UserProfile(
-                    name: name,
-                    imagePath: imagePath,
-                  ),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 24,
-                    child: Text(
-                      firstLetter,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 18,
-                      ),
+      final contactWidget = InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => UserProfile(name: name, imagePath: imagePath),
+            ),
+          );
+        },
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: lastLetter != firstLetter ? 16 : 64, top: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (lastLetter != firstLetter)
+                SizedBox(
+
+                  width: 24,
+                  child: Text(
+                    firstLetter,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 18,
                     ),
                   ),
-                  const SizedBox(width: 24),
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundImage: AssetImage(imagePath),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    name,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      } else {
-        contactTiles.add(
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => UserProfile(
-                    name: name,
-                    imagePath: imagePath,
-                  ),
                 ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 64, top: 16),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundImage: AssetImage(imagePath),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    name,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
+              if (lastLetter != firstLetter) const SizedBox(width: 24),
+              CircleAvatar(
+                radius: 24,
+                backgroundImage: AssetImage(imagePath),
+                backgroundColor: Colors.transparent,
               ),
-            ),
+              const SizedBox(width: 16),
+              Text(
+                name,
+                style: TextStyle(fontSize: 18,color: Theme.of(context).colorScheme.onErrorContainer,
+  ),
+              ),
+            ],
           ),
-        );
-      }
+        ),
+      );
 
+      contactTiles.add(contactWidget);
       lastLetter = firstLetter;
     }
 
@@ -147,7 +113,7 @@ class _ContactsPageState extends State<ContactsPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                icon: const Icon(Icons.more_vert),
+                icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.onErrorContainer,),
                 onPressed: () {},
               ),
             ],
@@ -155,13 +121,14 @@ class _ContactsPageState extends State<ContactsPage> {
         ),
 
         // Title aligned left
-        const Padding(
+      Padding(
           padding: EdgeInsets.only(left: 16, top: 4, bottom: 8),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
               'Contacts',
               style: TextStyle(
+                color: Theme.of(context).colorScheme.onErrorContainer,
                 fontWeight: FontWeight.bold,
                 fontSize: 26,
               ),
@@ -169,40 +136,103 @@ class _ContactsPageState extends State<ContactsPage> {
           ),
         ),
 
-        // Search Field
+        // Search Anchor
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: TextField(
+          child: SearchAnchor.bar(
+            searchController: searchController,
+            barHintText: "Search",
+            
+            viewHintText: "Search",
+            dividerColor: Theme.of(context).colorScheme.surface,
+            barElevation: const WidgetStatePropertyAll(0),
             onChanged: (value) {
               setState(() {
                 _searchQuery = value;
               });
             },
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            decoration: InputDecoration(
-              hintText: "Search",
-              hintStyle: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
+            suggestionsBuilder: (BuildContext context, SearchController controller) {
+  final filtered = allContacts
+      .where((contact) => contact['name']!
+          .toLowerCase()
+          .contains(controller.text.toLowerCase()))
+      .toList();
+
+  return [
+    // Horizontal scrollable avatars
+    Material(
+       type: MaterialType.transparency,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: filtered.map((contact) {
+            return GestureDetector(
+              onTap: () {
+                controller.closeView(null);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatPage(
+                      recieverID: contact['uid'] ?? '',
+                      recieverEmail: contact['email'] ?? '',
+                      recieverUsername: contact['name']!,
+                    ),
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage(contact['image']!),
+                      radius: 28,
+                      backgroundColor: Colors.transparent,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      contact['name']!,
+                      style: TextStyle(fontSize: 12,
+                          color: Theme.of(context).colorScheme.onErrorContainer),
+                    ),
+                  ],
+                ),
               ),
-              prefixIcon: Icon(
-                Icons.search,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              filled: true,
-              fillColor:
-                  Theme.of(context).colorScheme.inversePrimary.withOpacity(0.3),
-              contentPadding: const EdgeInsets.symmetric(vertical: 14),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide.none,
-              ),
-            ),
+            );
+          }).toList(),
+        ),
+      ),
+    ),
+
+    // Optional: File categories
+    ListTile(
+      leading: Icon(Icons.image, color: Theme.of(context).colorScheme.primary),
+      title: Text('Photos',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      onTap: () {},
+    ),
+    ListTile(
+      leading: Icon(Icons.video_collection, color: Theme.of(context).colorScheme.primary),
+      title: Text('Videos',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      onTap: () {},
+    ),
+    ListTile(
+      leading: Icon(Icons.headphones, color: Theme.of(context).colorScheme.primary),
+      title: Text('Music',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      onTap: () {},
+    ),
+    ListTile(
+      leading: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
+      title: Text('Links',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      onTap: () {},
+    ),
+  ];
+},
+
+                
+            
+          
           ),
         ),
 
