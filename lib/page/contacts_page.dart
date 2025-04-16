@@ -1,5 +1,4 @@
 import 'package:chatapp/page/user_profile.dart';
-import 'package:chatapp/page/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class ContactsPage extends StatefulWidget {
@@ -137,13 +136,18 @@ class _ContactsPageState extends State<ContactsPage> {
         ),
 
         // Search Anchor
+        
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SearchAnchor.bar(
             searchController: searchController,
+          
             barHintText: "Search",
             
             viewHintText: "Search",
+            barBackgroundColor: WidgetStatePropertyAll(
+  Theme.of(context).colorScheme.outline.withOpacity(0.08),
+),
             dividerColor: Theme.of(context).colorScheme.surface,
             barElevation: const WidgetStatePropertyAll(0),
             onChanged: (value) {
@@ -151,7 +155,7 @@ class _ContactsPageState extends State<ContactsPage> {
                 _searchQuery = value;
               });
             },
-            suggestionsBuilder: (BuildContext context, SearchController controller) {
+           suggestionsBuilder: (BuildContext context, SearchController controller) {
   final filtered = allContacts
       .where((contact) => contact['name']!
           .toLowerCase()
@@ -161,7 +165,7 @@ class _ContactsPageState extends State<ContactsPage> {
   return [
     // Horizontal scrollable avatars
     Material(
-       type: MaterialType.transparency,
+      type: MaterialType.transparency,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(12),
@@ -173,10 +177,9 @@ class _ContactsPageState extends State<ContactsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ChatPage(
-                      recieverID: contact['uid'] ?? '',
-                      recieverEmail: contact['email'] ?? '',
-                      recieverUsername: contact['name']!,
+                    builder: (context) => UserProfile(
+                      name: contact['name']!,
+                      imagePath: contact['image']!,
                     ),
                   ),
                 );
@@ -194,8 +197,10 @@ class _ContactsPageState extends State<ContactsPage> {
                     const SizedBox(height: 4),
                     Text(
                       contact['name']!,
-                      style: TextStyle(fontSize: 12,
-                          color: Theme.of(context).colorScheme.onErrorContainer),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onErrorContainer,
+                      ),
                     ),
                   ],
                 ),
@@ -209,22 +214,42 @@ class _ContactsPageState extends State<ContactsPage> {
     // Optional: File categories
     ListTile(
       leading: Icon(Icons.image, color: Theme.of(context).colorScheme.primary),
-      title: Text('Photos',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      title: Text(
+        'Photos',
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onErrorContainer,
+        ),
+      ),
       onTap: () {},
     ),
     ListTile(
       leading: Icon(Icons.video_collection, color: Theme.of(context).colorScheme.primary),
-      title: Text('Videos',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      title: Text(
+        'Videos',
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onErrorContainer,
+        ),
+      ),
       onTap: () {},
     ),
     ListTile(
       leading: Icon(Icons.headphones, color: Theme.of(context).colorScheme.primary),
-      title: Text('Music',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      title: Text(
+        'Music',
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onErrorContainer,
+        ),
+      ),
       onTap: () {},
     ),
     ListTile(
       leading: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
-      title: Text('Links',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+      title: Text(
+        'Links',
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onErrorContainer,
+        ),
+      ),
       onTap: () {},
     ),
   ];
