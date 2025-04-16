@@ -43,7 +43,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(_isSearching ? Icons.close : Icons.search,color: Theme.of(context).colorScheme.onErrorContainer,),
+                        icon: Icon(
+                          _isSearching ? Icons.close : Icons.search,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
                         onPressed: () {
                           setState(() {
                             if (_isSearching) {
@@ -55,7 +58,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.more_vert,color: Theme.of(context).colorScheme.onErrorContainer,),
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
                         onPressed: () {},
                       ),
                     ],
@@ -91,7 +97,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   hintText: "Search settings...",
                   fillColor: Theme.of(context).colorScheme.outline,
                   border: OutlineInputBorder(),
-                  
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
@@ -117,11 +122,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(
+                      Text(
                         'Daniel',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onErrorContainer,
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            color:
+                                Theme.of(context).colorScheme.onErrorContainer,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '9876543210',
@@ -135,7 +142,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primaryContainer,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -173,7 +181,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 leading:
                     Icon(Icons.notifications_none, color: colorScheme.primary),
-                title: Text("Notifications",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+                title: Text(
+                  "Notifications",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
+                ),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -187,35 +200,60 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 leading:
                     Icon(Icons.dark_mode_outlined, color: colorScheme.primary),
-                title: Text("Appearance",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+                title: Text(
+                  "Appearance",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
+                ),
                 onTap: () => themeProvider.toggleTheme(),
               ),
             if (_searchQuery.isEmpty ||
                 "privacy".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.lock_outline, color: colorScheme.primary),
-                title: Text("Privacy",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+                title: Text(
+                  "Privacy",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
+                ),
                 onTap: () {},
               ),
             if (_searchQuery.isEmpty ||
                 "storage".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.cloud_outlined, color: colorScheme.primary),
-                title: Text("Storage & Data",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+                title: Text(
+                  "Storage & Data",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
+                ),
                 onTap: () {},
               ),
             if (_searchQuery.isEmpty ||
                 "about".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.help_outline, color: colorScheme.primary),
-                title: Text("About",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+                title: Text(
+                  "About",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
+                ),
                 onTap: () {},
               ),
             if (_searchQuery.isEmpty ||
                 "log out".contains(_searchQuery.toLowerCase()))
               ListTile(
                 leading: Icon(Icons.logout, color: colorScheme.primary),
-                title: Text("Log Out",style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+                title: Text(
+                  "Log Out",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
+                ),
                 onTap: () => authService.signOut(),
               ),
           ],

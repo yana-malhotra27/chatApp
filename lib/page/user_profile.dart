@@ -18,10 +18,10 @@ class UserProfile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.onErrorContainer),
+          icon: Icon(Icons.arrow_back,
+              color: Theme.of(context).colorScheme.onErrorContainer),
           onPressed: () => Navigator.pop(context),
         ),
-        
       ),
       body: Column(
         children: [
@@ -39,7 +39,10 @@ class UserProfile extends StatelessWidget {
           // Username
           Text(
             name,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onErrorContainer),
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onErrorContainer),
           ),
 
           const SizedBox(height: 4),
@@ -48,9 +51,8 @@ class UserProfile extends StatelessWidget {
           Text(
             '9876543210',
             style: TextStyle(
-              fontSize: 16,
-              color: Theme.of(context).colorScheme.onErrorContainer
-            ),
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.onErrorContainer),
           ),
 
           const SizedBox(height: 24),
@@ -102,18 +104,33 @@ class UserProfile extends StatelessWidget {
           // ListTiles
           ListTile(
             leading: Icon(Icons.image_outlined, color: colorScheme.primary),
-            title: Text('View media',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+            title: Text(
+              'View media',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onErrorContainer,
+              ),
+            ),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.search_outlined, color: colorScheme.primary),
-            title: Text('Search in conversation',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+            title: Text(
+              'Search in conversation',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onErrorContainer,
+              ),
+            ),
             onTap: () {},
           ),
           ListTile(
             leading:
                 Icon(Icons.notifications_outlined, color: colorScheme.primary),
-            title: Text('Notifications',style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer,),),
+            title: Text(
+              'Notifications',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onErrorContainer,
+              ),
+            ),
             onTap: () {
               Navigator.push(
                 context,

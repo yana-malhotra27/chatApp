@@ -42,9 +42,8 @@ class _HomePageState extends State<HomePage> {
   void _loadUsers() {
     _chatService.getUserStream().listen((data) {
       final currentUserEmail = _authService.currentUser?.email ?? '';
-      final users = data
-          .where((user) => user['email'] != currentUserEmail)
-          .toList();
+      final users =
+          data.where((user) => user['email'] != currentUserEmail).toList();
       setState(() {
         _allUsers = users.reversed.toList(); // latest on top
       });
@@ -63,9 +62,11 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Theme.of(context).colorScheme.onErrorContainer,
         backgroundColor: Theme.of(context).colorScheme.surface,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Chats"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: "Chats"),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "Contacts"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Settings"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), label: "Settings"),
         ],
       ),
       floatingActionButton: (_selectedIndex == 0 || _selectedIndex == 1)
@@ -91,109 +92,118 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: SearchAnchor.bar(
-  searchController: _searchController,
-  barHintText: "Search",
-  viewHintText: "Search",
-  barBackgroundColor: WidgetStatePropertyAll(
-    Theme.of(context).colorScheme.outline.withOpacity(0.08),
-  ),
-  barElevation: const WidgetStatePropertyAll(0),
-  dividerColor: Theme.of(context).colorScheme.surface,
-  suggestionsBuilder: (context, controller) {
-    final query = controller.text.toLowerCase();
-    final filtered = _allUsers.where((user) {
-      final username = (user['username'] ?? '').toString().toLowerCase();
-      return username.contains(query);
-    }).toList();
+        searchController: _searchController,
+        barHintText: "Search",
+        viewHintText: "Search",
+        barBackgroundColor: WidgetStatePropertyAll(
+          Theme.of(context).colorScheme.outline.withOpacity(0.08),
+        ),
+        barElevation: const WidgetStatePropertyAll(0),
+        dividerColor: Theme.of(context).colorScheme.surface,
+        suggestionsBuilder: (context, controller) {
+          final query = controller.text.toLowerCase();
+          final filtered = _allUsers.where((user) {
+            final username = (user['username'] ?? '').toString().toLowerCase();
+            return username.contains(query);
+          }).toList();
 
-    return [
-      // Horizontally scrollable filtered avatars with names
-      Material(
-        type: MaterialType.transparency,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: filtered.map((user) {
-              return GestureDetector(
-                onTap: () {
-                  controller.closeView(null);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatPage(
-                        recieverEmail: user['email'],
-                        recieverID: user['uid'],
-                        recieverUsername: user['username'] ?? 'Unknown',
-                      ),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: const AssetImage('lib/images/person.jpg'),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        user['username'] ?? 'Unknown',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.onErrorContainer,
+          return [
+            // Horizontally scrollable filtered avatars with names
+            Material(
+              type: MaterialType.transparency,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: filtered.map((user) {
+                    return GestureDetector(
+                      onTap: () {
+                        controller.closeView(null);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                              recieverEmail: user['email'],
+                              recieverID: user['uid'],
+                              recieverUsername: user['username'] ?? 'Unknown',
+                            ),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundImage:
+                                  const AssetImage('lib/images/person.jpg'),
+                              backgroundColor: Colors.transparent,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              user['username'] ?? 'Unknown',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onErrorContainer,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  }).toList(),
                 ),
-              );
-            }).toList(),
-          ),
-        ),
-      ),
+              ),
+            ),
 
-      // Category ListTiles
-      ListTile(
-        leading: Icon(Icons.image, color: Theme.of(context).colorScheme.primary),
-        title: Text(
-          'Photos',
-          style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
-        ),
-        onTap: () {},
+            // Category ListTiles
+            ListTile(
+              leading: Icon(Icons.image,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(
+                'Photos',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer),
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.video_collection,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(
+                'Videos',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer),
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.headphones,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(
+                'Music',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer),
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.language,
+                  color: Theme.of(context).colorScheme.primary),
+              title: Text(
+                'Links',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer),
+              ),
+              onTap: () {},
+            ),
+          ];
+        },
       ),
-      ListTile(
-        leading: Icon(Icons.video_collection, color: Theme.of(context).colorScheme.primary),
-        title: Text(
-          'Videos',
-          style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
-        ),
-        onTap: () {},
-      ),
-      ListTile(
-        leading: Icon(Icons.headphones, color: Theme.of(context).colorScheme.primary),
-        title: Text(
-          'Music',
-          style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
-        ),
-        onTap: () {},
-      ),
-      ListTile(
-        leading: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
-        title: Text(
-          'Links',
-          style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
-        ),
-        onTap: () {},
-      ),
-    ];
-  },
-),
-
-
     );
   }
 
@@ -245,7 +255,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildUserListItem(Map<String, dynamic> userData, bool showUnreadBadge) {
+  Widget _buildUserListItem(
+      Map<String, dynamic> userData, bool showUnreadBadge) {
     final theme = Theme.of(context);
     return Material(
       color: Colors.transparent,
@@ -267,8 +278,10 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (_) => AlertDialog(
               backgroundColor: theme.colorScheme.surface,
-              icon: Icon(Icons.delete_outline, color: theme.colorScheme.primary),
-              title: Text("Delete conversation?", style: TextStyle(color: theme.colorScheme.onErrorContainer)),
+              icon:
+                  Icon(Icons.delete_outline, color: theme.colorScheme.primary),
+              title: Text("Delete conversation?",
+                  style: TextStyle(color: theme.colorScheme.onErrorContainer)),
               content: Text(
                 "This conversation will be removed from all your synced devices. This action cannot be undone.",
                 style: TextStyle(color: theme.colorScheme.onErrorContainer),
@@ -276,14 +289,16 @@ class _HomePageState extends State<HomePage> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text("Cancel", style: TextStyle(color: theme.colorScheme.primary)),
+                  child: Text("Cancel",
+                      style: TextStyle(color: theme.colorScheme.primary)),
                 ),
                 TextButton(
                   onPressed: () async {
                     Navigator.pop(context);
                     await _chatService.deleteConversation(userData["uid"]);
                   },
-                  child: Text("Delete", style: TextStyle(color: theme.colorScheme.primary)),
+                  child: Text("Delete",
+                      style: TextStyle(color: theme.colorScheme.primary)),
                 ),
               ],
             ),

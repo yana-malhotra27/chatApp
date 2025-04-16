@@ -19,7 +19,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,color: Theme.of(context).colorScheme.onErrorContainer,),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -48,7 +51,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
           const SizedBox(height: 16),
 
           SwitchListTile(
-            title: Text("Private chats", style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onErrorContainer,)),
+            title: Text("Private chats",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                )),
             value: privateChats,
             onChanged: (val) => setState(() => privateChats = val),
             activeColor: colorScheme.primary,
@@ -59,7 +66,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
           const SizedBox(height: 12),
 
           SwitchListTile(
-            title: Text("Group chats", style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onErrorContainer,)),
+            title: Text("Group chats",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                )),
             value: groupChats,
             onChanged: (val) => setState(() => groupChats = val),
             activeColor: colorScheme.primary,
@@ -70,7 +81,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
           const SizedBox(height: 12),
 
           SwitchListTile(
-            title: Text("Do not disturb", style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onErrorContainer,)),
+            title: Text("Do not disturb",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                )),
             value: doNotDisturb,
             onChanged: (val) => setState(() => doNotDisturb = val),
             activeColor: colorScheme.primary,

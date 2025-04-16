@@ -29,7 +29,6 @@ class NewContactPage extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.onErrorContainer,
-
                     ),
                   ),
                 ],
@@ -115,7 +114,6 @@ class NewContactPage extends StatelessWidget {
             child: SizedBox(
               height: 60,
               child: TextField(
-                
                 style: TextStyle(color: colorScheme.outline),
                 decoration: InputDecoration(
                   hintText: hint,

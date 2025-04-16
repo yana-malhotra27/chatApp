@@ -67,8 +67,8 @@ class RegisterPage extends StatelessWidget {
         obscureText: obscureText,
         controller: controller,
         style: TextStyle(
-        color: Theme.of(context).colorScheme.outline,
-      ),
+          color: Theme.of(context).colorScheme.outline,
+        ),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),

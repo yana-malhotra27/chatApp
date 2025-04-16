@@ -69,7 +69,6 @@ class _ContactsPageState extends State<ContactsPage> {
             children: [
               if (lastLetter != firstLetter)
                 SizedBox(
-
                   width: 24,
                   child: Text(
                     firstLetter,
@@ -89,8 +88,10 @@ class _ContactsPageState extends State<ContactsPage> {
               const SizedBox(width: 16),
               Text(
                 name,
-                style: TextStyle(fontSize: 18,color: Theme.of(context).colorScheme.onErrorContainer,
-  ),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                ),
               ),
             ],
           ),
@@ -112,7 +113,10 @@ class _ContactsPageState extends State<ContactsPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.onErrorContainer,),
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                ),
                 onPressed: () {},
               ),
             ],
@@ -120,7 +124,7 @@ class _ContactsPageState extends State<ContactsPage> {
         ),
 
         // Title aligned left
-      Padding(
+        Padding(
           padding: EdgeInsets.only(left: 16, top: 4, bottom: 8),
           child: Align(
             alignment: Alignment.centerLeft,
@@ -136,18 +140,16 @@ class _ContactsPageState extends State<ContactsPage> {
         ),
 
         // Search Anchor
-        
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SearchAnchor.bar(
             searchController: searchController,
-          
             barHintText: "Search",
-            
             viewHintText: "Search",
             barBackgroundColor: WidgetStatePropertyAll(
-  Theme.of(context).colorScheme.outline.withOpacity(0.08),
-),
+              Theme.of(context).colorScheme.outline.withOpacity(0.08),
+            ),
             dividerColor: Theme.of(context).colorScheme.surface,
             barElevation: const WidgetStatePropertyAll(0),
             onChanged: (value) {
@@ -155,109 +157,113 @@ class _ContactsPageState extends State<ContactsPage> {
                 _searchQuery = value;
               });
             },
-           suggestionsBuilder: (BuildContext context, SearchController controller) {
-  final filtered = allContacts
-      .where((contact) => contact['name']!
-          .toLowerCase()
-          .contains(controller.text.toLowerCase()))
-      .toList();
+            suggestionsBuilder:
+                (BuildContext context, SearchController controller) {
+              final filtered = allContacts
+                  .where((contact) => contact['name']!
+                      .toLowerCase()
+                      .contains(controller.text.toLowerCase()))
+                  .toList();
 
-  return [
-    // Horizontal scrollable avatars
-    Material(
-      type: MaterialType.transparency,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: filtered.map((contact) {
-            return GestureDetector(
-              onTap: () {
-                controller.closeView(null);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserProfile(
-                      name: contact['name']!,
-                      imagePath: contact['image']!,
+              return [
+                // Horizontal scrollable avatars
+                Material(
+                  type: MaterialType.transparency,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: filtered.map((contact) {
+                        return GestureDetector(
+                          onTap: () {
+                            controller.closeView(null);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserProfile(
+                                  name: contact['name']!,
+                                  imagePath: contact['image']!,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage(contact['image']!),
+                                  radius: 28,
+                                  backgroundColor: Colors.transparent,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  contact['name']!,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onErrorContainer,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage(contact['image']!),
-                      radius: 28,
-                      backgroundColor: Colors.transparent,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      contact['name']!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.onErrorContainer,
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    ),
 
-    // Optional: File categories
-    ListTile(
-      leading: Icon(Icons.image, color: Theme.of(context).colorScheme.primary),
-      title: Text(
-        'Photos',
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onErrorContainer,
-        ),
-      ),
-      onTap: () {},
-    ),
-    ListTile(
-      leading: Icon(Icons.video_collection, color: Theme.of(context).colorScheme.primary),
-      title: Text(
-        'Videos',
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onErrorContainer,
-        ),
-      ),
-      onTap: () {},
-    ),
-    ListTile(
-      leading: Icon(Icons.headphones, color: Theme.of(context).colorScheme.primary),
-      title: Text(
-        'Music',
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onErrorContainer,
-        ),
-      ),
-      onTap: () {},
-    ),
-    ListTile(
-      leading: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
-      title: Text(
-        'Links',
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onErrorContainer,
-        ),
-      ),
-      onTap: () {},
-    ),
-  ];
-},
-
-                
-            
-          
+                // Optional: File categories
+                ListTile(
+                  leading: Icon(Icons.image,
+                      color: Theme.of(context).colorScheme.primary),
+                  title: Text(
+                    'Photos',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.video_collection,
+                      color: Theme.of(context).colorScheme.primary),
+                  title: Text(
+                    'Videos',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.headphones,
+                      color: Theme.of(context).colorScheme.primary),
+                  title: Text(
+                    'Music',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.language,
+                      color: Theme.of(context).colorScheme.primary),
+                  title: Text(
+                    'Links',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ];
+            },
           ),
         ),
 
