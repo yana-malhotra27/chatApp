@@ -223,8 +223,8 @@ class _ChatPageState extends State<ChatPage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color:
-                    Theme.of(context).colorScheme.surface, // Background color
+                // color:
+                //     Theme.of(context).colorScheme.surface, // Background color
                 borderRadius: BorderRadius.circular(24),
               ),
               child: TextField(
@@ -238,7 +238,14 @@ class _ChatPageState extends State<ChatPage> {
                   hintStyle: TextStyle(
                     color: Theme.of(context).colorScheme.outline,
                   ),
-                  border: InputBorder.none,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.outline,
+                      width: 1,
+                    ),
+                  ),
+                  
                 ),
               ),
             ),

@@ -123,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Daniel',
+                        'JayJai',
                         style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onErrorContainer,

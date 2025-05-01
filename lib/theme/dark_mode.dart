@@ -1,3 +1,8 @@
+// import 'package:flutter/material.dart';
+
+// ThemeData darkMode = ThemeData(
+//     colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue,brightness: Brightness.dark,),brightness: Brightness.dark,
+// );
 import 'package:flutter/material.dart';
 
 ThemeData darkMode = ThemeData(

@@ -55,17 +55,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: _selectedIndex == 0 ? _buildSearchAppBar() : null,
       body: _getPage(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Theme.of(context).colorScheme.onErrorContainer,
-        unselectedItemColor: Theme.of(context).colorScheme.onErrorContainer,
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: _onItemTapped,
+        // selectedItemColor: Theme.of(context).colorScheme.onErrorContainer,
+        // unselectedItemColor: Theme.of(context).colorScheme.onErrorContainer,
         backgroundColor: Theme.of(context).colorScheme.surface,
-        items: const [
-          BottomNavigationBarItem(
+        destinations: const [
+          NavigationDestination(
               icon: Icon(Icons.home_outlined), label: "Chats"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Contacts"),
-          BottomNavigationBarItem(
+          NavigationDestination(icon: Icon(Icons.people), label: "Contacts"),
+          NavigationDestination(
               icon: Icon(Icons.settings_outlined), label: "Settings"),
         ],
       ),
